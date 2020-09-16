@@ -18,7 +18,7 @@ TODO
 
 ## Usage <a name = "usage"></a>
 
-Open up VSCode, press Ctrl+P and paste this in: `ext install firoxer.aging-lines-vscode`.
+Open up VSCode, press `Ctrl+P` and paste this in: `ext install firoxer.aging-lines-vscode`. Press `Ctrl+Shift+P` and type in "Toggle Aging Lines" to enable the extension. You can change the age and style settings with `Ctrl+,`. The settings format should be fairly obvious. The styles you can set are documented [here](https://code.visualstudio.com/api/references/vscode-api#DecorationRenderOptions).
 
 ## Prerequisite <a name = "prerequisite"></a>
 
@@ -28,9 +28,9 @@ You need to have `git` executable from the command line.
 
 Clone this repo, open it up in VSCode and hit F5 to spawn a debug window with the extension enabled.
 
-You can modify the extension in the first window and hit Ctrl+Shift+F5 to respawn the debug window.
+You can modify the extension in the first window and hit `Ctrl+Shift+F5` to respawn the debug window.
 
-When using the debug window, remember to enable the plugin's functionality via Ctrl+Shift+P with the command name "Toggle Aging Lines".
+When using the debug window, remember to enable the plugin's functionality via `Ctrl+Shift+P` with the command name "Toggle Aging Lines".
 
 ## :wrench: Testing <a name = "testing"></a>
 
