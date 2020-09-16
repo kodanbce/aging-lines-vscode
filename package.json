@@ -1,5 +1,5 @@
 {
-	"name": "aging-lines-vscode",
+	"name": "aging-lines",
 	"description": "A POC extension for Visual Studio Code that shows by varying background color how old the changes in your editor are",
 	"version": "0.0.1",
 	"publisher": "firoxer",
