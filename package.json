@@ -17,6 +17,56 @@
 		"*"
 	],
 	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "agingLines.toggle",
+				"title": "Toggle Aging Lines"
+			}
+		],
+		"configuration": {
+			"title": "Aging Lines",
+			"properties": {
+				"agingLines.categories": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"title": "Category",
+						"properties": {
+							"startsFromDay": {
+								"type": "number",
+								"description": "Days since now from which the category is effective"
+							},
+							"decorationRenderOptions": {
+								"type": "object",
+								"description": "Styles to give to the category. Can use anything that's defined in VSCode's DecorationRenderOptions interface."
+							}
+						}
+					},
+					"default": [
+						{
+							"startsFromDay": 0,
+							"decorationRenderOptions": {
+								"backgroundColor": "rgba(0, 255, 0, 0.2)"
+							}
+						},
+						{
+							"startsFromDay": 30,
+							"decorationRenderOptions": {
+								"backgroundColor": "rgba(255, 255, 0, 0.2)"
+							}
+						},
+						{
+							"startsFromDay": 180,
+							"decorationRenderOptions": {
+								"backgroundColor": "rgba(255, 0, 0, 0.2)"
+							}
+						}
+					]
+				}
+			}
+		}
+	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",

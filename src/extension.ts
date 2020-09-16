@@ -7,11 +7,17 @@ const execFileP = promisify(execFile);
 import * as vscode from 'vscode';
 
 async function findModificationTimeByLine(path: string) {
-  const blameOutput = await execFileP(
-    'git',
-    ['blame', '-t', path],
-    { cwd: dirname(path) },
-  );
+  let blameOutput;
+  try {
+    blameOutput = await execFileP(
+      'git',
+      ['blame', '-t', path],
+      { cwd: dirname(path) },
+    );
+  } catch (e) {
+    console.error(`Could not run git blame: ${e.message}`);
+    return [];
+  }
 
   const times = blameOutput.stdout.split('\n').map((line) => {
     const timestampMatch = line.match(/\d{10}/);
@@ -27,57 +33,97 @@ async function findModificationTimeByLine(path: string) {
   return times;
 }
 
-const oldDecorationType = vscode.window.createTextEditorDecorationType({
-  backgroundColor: 'rgba(255, 0, 0, 0.2)',
-  isWholeLine: true,
-});
-const middleDecorationType = vscode.window.createTextEditorDecorationType({
-  backgroundColor: 'rgba(255, 255, 0, 0.2)',
-  isWholeLine: true,
-});
-const freshDecorationType = vscode.window.createTextEditorDecorationType({
-  backgroundColor: 'rgba(0, 255, 0, 0.2)',
-  isWholeLine: true,
-});
+interface CategoryConfig {
+  startsFromDay: number,
+  decorationRenderOptions: Partial<vscode.DecorationRenderOptions>
+}
+
+function readCategoryConfigs(): CategoryConfig[] {
+  return (vscode.workspace.getConfiguration().get('agingLines.categories') as CategoryConfig[])
+    .sort((categoryA, categoryB) => categoryA.startsFromDay - categoryB.startsFromDay);
+}
+
+let categoryConfigs = readCategoryConfigs();
+
+const decorationTypes = new Map();
+function matchTimestampToDecorationType(timestamp: number) {
+  const daysSinceTimestamp = (new Date().valueOf() - timestamp) / (24 * 60 * 60 * 1000);
+
+  let decorationRenderOptions;
+  for (const categoryConfig of categoryConfigs) {
+    if (daysSinceTimestamp > categoryConfig.startsFromDay) {
+      decorationRenderOptions = categoryConfig.decorationRenderOptions;
+    }
+  }
+
+  if (!decorationTypes.has(decorationRenderOptions)) {
+    // We could simplify this and just create a new TextEditorDecorationType
+    // every time this function is called, but this singleton technique should
+    // provide us with better VSCode performance
+    decorationTypes.set(
+      decorationRenderOptions,
+      vscode.window.createTextEditorDecorationType({
+        ...decorationRenderOptions,
+        isWholeLine: true,
+      })
+    );
+  }
+
+  return decorationTypes.get(decorationRenderOptions);
+}
 
 export function activate(context: vscode.ExtensionContext) {
   let activeEditor = vscode.window.activeTextEditor;
 
-  const updateDecorations = async () => {
-    if (!activeEditor) {
-      return;
-    }
+  const showDecorations = async (editor: vscode.TextEditor) => {
+    const modificationTimeByLine =
+      await findModificationTimeByLine(editor.document.uri.fsPath);
 
-    const modificationTimeByLine = await findModificationTimeByLine(activeEditor.document.uri.fsPath);
-
-    const linesOlderThanSixMonths: vscode.DecorationOptions[] = [];
-    const linesOlderThanOneMonth: vscode.DecorationOptions[] = [];
-    const freshLines: vscode.DecorationOptions[] = [];
-
-    const sixMonthsAgo =
-      new Date().valueOf() - (6 * 30 * 24 * 60 * 60 * 1000);
-    const oneMonthAgo =
-      new Date().valueOf() - (1 * 30 * 24 * 60 * 60 * 1000);
+    const decorationsByDecorationType = new Map();
 
     for (const [lineNumber, modificationTime] of modificationTimeByLine.entries()) {
       if (modificationTime === null) {
         continue;
       }
 
-      const decoration = { range: new vscode.Range(lineNumber, 0, lineNumber, 0) };
+      const decorationType = matchTimestampToDecorationType(modificationTime);
 
-      if (modificationTime < sixMonthsAgo) {
-        linesOlderThanSixMonths.push(decoration);
-      } else if (modificationTime < oneMonthAgo) {
-        linesOlderThanOneMonth.push(decoration);
-      } else {
-        freshLines.push(decoration);
+      if (!decorationsByDecorationType.has(decorationType)) {
+        decorationsByDecorationType.set(decorationType, []);
       }
+
+      const decoration = { range: new vscode.Range(lineNumber, 0, lineNumber, 0) };
+      decorationsByDecorationType.get(decorationType).push(decoration);
     }
 
-    activeEditor.setDecorations(oldDecorationType, linesOlderThanSixMonths);
-    activeEditor.setDecorations(middleDecorationType, linesOlderThanOneMonth);
-    activeEditor.setDecorations(freshDecorationType, freshLines);
+    for (const [decorationType, decorations] of decorationsByDecorationType.entries()) {
+      editor.setDecorations(decorationType, decorations);
+    }
+  };
+
+  const hideDecorations = (editor: vscode.TextEditor) => {
+    for (const decorationType of decorationTypes.values()) {
+      editor.setDecorations(decorationType, []);
+    }
+  };
+
+  let enabled = false;
+
+  vscode.commands.registerCommand('agingLines.toggle', () => {
+    enabled = !enabled;
+    updateDecorations();
+  });
+
+  const updateDecorations = async () => {
+    if (!activeEditor) {
+      return;
+    }
+
+    if (enabled) {
+      showDecorations(activeEditor);
+    } else {
+      hideDecorations(activeEditor);
+    }
   };
 
   let timeout: NodeJS.Timer | undefined = undefined;
@@ -106,4 +152,8 @@ export function activate(context: vscode.ExtensionContext) {
       triggerUpdateDecorations();
     }
   }, null, context.subscriptions);
+
+  vscode.workspace.onDidChangeConfiguration((event) => {
+    categoryConfigs = readCategoryConfigs();
+  });
 }
