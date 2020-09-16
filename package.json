@@ -1,84 +1,84 @@
 {
-	"name": "aging-lines",
-	"description": "A POC extension for Visual Studio Code that shows by varying background color how old the changes in your editor are",
-	"version": "0.0.1",
-	"publisher": "firoxer",
-	"license": "MIT",
-	"engines": {
-		"vscode": "^1.32.0"
-	},
-	"repository": {
-		"url": "https://github.com/kodanbce/aging-lines-vscode"
-	},
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"*"
-	],
-	"main": "./out/extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "agingLines.toggle",
-				"title": "Toggle Aging Lines"
-			}
-		],
-		"configuration": {
-			"title": "Aging Lines",
-			"properties": {
-				"agingLines.categories": {
-					"type": "array",
-					"items": {
-						"type": "object",
-						"title": "Category",
-						"properties": {
-							"startsFromDay": {
-								"type": "number",
-								"description": "Days since now from which the category is effective"
-							},
-							"decorationRenderOptions": {
-								"type": "object",
-								"description": "Styles to give to the category. Can use anything that's defined in VSCode's DecorationRenderOptions interface."
-							}
-						}
-					},
-					"default": [
-						{
-							"startsFromDay": 0,
-							"decorationRenderOptions": {
-								"backgroundColor": "rgba(0, 255, 0, 0.2)"
-							}
-						},
-						{
-							"startsFromDay": 30,
-							"decorationRenderOptions": {
-								"backgroundColor": "rgba(255, 255, 0, 0.2)"
-							}
-						},
-						{
-							"startsFromDay": 180,
-							"decorationRenderOptions": {
-								"backgroundColor": "rgba(255, 0, 0, 0.2)"
-							}
-						}
-					]
-				}
-			}
-		}
-	},
-	"scripts": {
-		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
-		"lint": "eslint . --ext .ts,.tsx",
-		"watch": "tsc -watch -p ./"
-	},
-	"devDependencies": {
-		"@types/node": "^12.12.0",
-		"@typescript-eslint/eslint-plugin": "^3.0.2",
-		"@typescript-eslint/parser": "^3.0.2",
-		"eslint": "^7.1.0",
-		"typescript": "^4.0.2",
-		"@types/vscode": "^1.32.0"
-	}
+  "name": "aging-lines",
+  "description": "A POC extension for Visual Studio Code that shows by varying background color how old the changes in your editor are",
+  "version": "0.0.1",
+  "publisher": "firoxer",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.32.0"
+  },
+  "repository": {
+    "url": "https://github.com/kodanbce/aging-lines-vscode"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "agingLines.toggle",
+        "title": "Toggle Aging Lines"
+      }
+    ],
+    "configuration": {
+      "title": "Aging Lines",
+      "properties": {
+        "agingLines.categories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "title": "Category",
+            "properties": {
+              "startsFromDay": {
+                "type": "number",
+                "description": "Days since now from which the category is effective"
+              },
+              "decorationRenderOptions": {
+                "type": "object",
+                "description": "Styles to give to the category. Can use anything that's defined in VSCode's DecorationRenderOptions interface."
+              }
+            }
+          },
+          "default": [
+            {
+              "startsFromDay": 0,
+              "decorationRenderOptions": {
+                "backgroundColor": "rgba(0, 255, 0, 0.2)"
+              }
+            },
+            {
+              "startsFromDay": 30,
+              "decorationRenderOptions": {
+                "backgroundColor": "rgba(255, 255, 0, 0.2)"
+              }
+            },
+            {
+              "startsFromDay": 180,
+              "decorationRenderOptions": {
+                "backgroundColor": "rgba(255, 0, 0, 0.2)"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "lint": "eslint . --ext .ts,.tsx",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.0",
+    "@typescript-eslint/eslint-plugin": "^3.0.2",
+    "@typescript-eslint/parser": "^3.0.2",
+    "eslint": "^7.1.0",
+    "typescript": "^4.0.2",
+    "@types/vscode": "^1.32.0"
+  }
 }
