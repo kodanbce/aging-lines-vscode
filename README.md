@@ -12,9 +12,13 @@
 - [Deployment](#deployment)
 - [License](#license)
 
+![Screenshot of the extension in use](https://raw.githubusercontent.com/kodanbce/aging-lines-vscode/master/screenshot.png)
+
 ## About <a name = "about"></a>
 
-TODO
+Software bugs are often caused by recently introduced changes. Therefore, when hunting down bugs, it is usually helpful to refer to `git log` and look for anything suspicious. However, perusing commits one-by-one is mentally taxing since you often need to keep all the diffs, line numbers and commit messages in your memory and it's easy to lose track of things.
+
+This extension colors lines' backgrounds based on when they were last changed. In other words, it lets you see the annual rings of a file and thus gain a high-level understanding of its changes. Seeing the volatility of lines with your eyes might let you notice things – and bugs – you might not be able to spot in plain logs.
 
 ## Usage <a name = "usage"></a>
 
