@@ -36,10 +36,6 @@ You can modify the extension in the first window and hit `Ctrl+Shift+F5` to resp
 
 When using the debug window, remember to enable the plugin's functionality via `Ctrl+Shift+P` with the command name "Toggle Aging Lines".
 
-## :wrench: Testing <a name = "testing"></a>
-
-_None._
-
 ## :tada: Deployment <a name = "deployment"></a>
 
 You can publish a new version of the code with the `vsce` tool. See [here](https://code.visualstudio.com/api/working-with-extensions/publishing-extension).
