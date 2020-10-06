@@ -22,7 +22,7 @@ This extension colors lines' backgrounds based on when they were last changed. I
 
 ## Usage <a name = "usage"></a>
 
-Open up VSCode, press `Ctrl+P` and paste this in: `ext install firoxer.aging-lines-vscode`. Press `Ctrl+Shift+P` and type in "Toggle Aging Lines" to enable the extension. You can change the age and style settings with `Ctrl+,`. The settings format should be fairly obvious. The styles you can set are documented [here](https://code.visualstudio.com/api/references/vscode-api#DecorationRenderOptions).
+Open up VSCode, press `Ctrl+P` and paste this in: `ext install kodanbce.aging-lines-vscode`. Press `Ctrl+Shift+P` and type in "Toggle Aging Lines" to enable the extension. You can change the age and style settings with `Ctrl+,`. The settings format should be fairly obvious. The styles you can set are documented [here](https://code.visualstudio.com/api/references/vscode-api#DecorationRenderOptions).
 
 ## Prerequisite <a name = "prerequisite"></a>
 

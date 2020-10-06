@@ -3,7 +3,7 @@
   "displayName": "Aging Lines",
   "description": "A POC extension for Visual Studio Code that shows by varying background color how old the changes in your editor are",
   "version": "0.0.2",
-  "publisher": "firoxer",
+  "publisher": "kodanbce",
   "license": "MIT",
   "engines": {
     "vscode": "^1.32.0"
