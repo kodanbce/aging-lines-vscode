@@ -48,19 +48,67 @@
             {
               "startsFromDay": 0,
               "decorationRenderOptions": {
-                "backgroundColor": "rgba(0, 255, 0, 0.2)"
+                "backgroundColor": "hsla(0, 100%, 50%, 0.50)"
               }
             },
             {
-              "startsFromDay": 30,
+              "startsFromDay": 1,
               "decorationRenderOptions": {
-                "backgroundColor": "rgba(255, 255, 0, 0.2)"
+                "backgroundColor": "hsla(0, 90%, 50%, 0.45)"
               }
             },
             {
-              "startsFromDay": 180,
+              "startsFromDay": 2,
               "decorationRenderOptions": {
-                "backgroundColor": "rgba(255, 0, 0, 0.2)"
+                "backgroundColor": "hsla(0, 80%, 50%, 0.40)"
+              }
+            },
+            {
+              "startsFromDay": 4,
+              "decorationRenderOptions": {
+                "backgroundColor": "hsla(0, 70%, 50%, 0.35)"
+              }
+            },
+            {
+              "startsFromDay": 8,
+              "decorationRenderOptions": {
+                "backgroundColor": "hsla(0, 60%, 50%, 0.30)"
+              }
+            },
+            {
+              "startsFromDay": 16,
+              "decorationRenderOptions": {
+                "backgroundColor": "hsla(0, 50%, 50%, 0.25)"
+              }
+            },
+            {
+              "startsFromDay": 32,
+              "decorationRenderOptions": {
+                "backgroundColor": "hsla(0, 40%, 50%, 0.20)"
+              }
+            },
+            {
+              "startsFromDay": 64,
+              "decorationRenderOptions": {
+                "backgroundColor": "hsla(0, 30%, 50%, 0.15)"
+              }
+            },
+            {
+              "startsFromDay": 128,
+              "decorationRenderOptions": {
+                "backgroundColor": "hsla(0, 20%, 50%, 0.10)"
+              }
+            },
+            {
+              "startsFromDay": 256,
+              "decorationRenderOptions": {
+                "backgroundColor": "hsla(0, 10%, 50%, 0.05)"
+              }
+            },
+            {
+              "startsFromDay": 512,
+              "decorationRenderOptions": {
+                "backgroundColor": "hsla(0, 0%, 50%, 0.00)"
               }
             }
           ]
