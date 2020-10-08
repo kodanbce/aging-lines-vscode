@@ -46,12 +46,12 @@ function readCategoryConfigs(): CategoryConfig[] {
 let categoryConfigs = readCategoryConfigs();
 
 const decorationTypes = new Map();
-function matchTimestampToDecorationType(timestamp: number) {
-  const daysSinceTimestamp = (new Date().valueOf() - timestamp) / (24 * 60 * 60 * 1000);
+function matchTimeSinceModificationToDecorationType(timeSinceModification: number) {
+  const daysSinceTimestamp = timeSinceModification / (24 * 60 * 60 * 1000);
 
   let decorationRenderOptions;
   for (const categoryConfig of categoryConfigs) {
-    if (daysSinceTimestamp > categoryConfig.startsFromDay) {
+    if (daysSinceTimestamp >= categoryConfig.startsFromDay) {
       decorationRenderOptions = categoryConfig.decorationRenderOptions;
     }
   }
@@ -78,6 +78,8 @@ export function activate(context: vscode.ExtensionContext) {
   const showDecorations = async (editor: vscode.TextEditor) => {
     const modificationTimeByLine =
       await findModificationTimeByLine(editor.document.uri.fsPath);
+    const latestModificationTime =
+      Math.max(...modificationTimeByLine.filter((time) => time !== null) as number[]);
 
     const decorationsByDecorationType = new Map();
 
@@ -86,7 +88,7 @@ export function activate(context: vscode.ExtensionContext) {
         continue;
       }
 
-      const decorationType = matchTimestampToDecorationType(modificationTime);
+      const decorationType = matchTimeSinceModificationToDecorationType(latestModificationTime - modificationTime);
 
       if (!decorationsByDecorationType.has(decorationType)) {
         decorationsByDecorationType.set(decorationType, []);
